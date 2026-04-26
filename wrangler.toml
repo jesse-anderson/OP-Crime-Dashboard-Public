@@ -1,0 +1,24 @@
+# Cloudflare Pages configuration. Lives at the deploy root (mirrored
+# from web/ -> staging/git/ -> public repo by build_frontend +
+# publish). Source-of-truth for runtime bindings so the dashboard
+# can never drift out of sync with what the code expects.
+#
+# The Pages project name and build output dir are managed by the
+# dashboard's git integration; we only declare bindings + compat date
+# here. If a future Cloudflare change requires `name` / `pages_build_output_dir`
+# in this file, add them then; for now omit so a project rename does
+# not silently brick deploys.
+
+compatibility_date = "2024-09-01"
+
+# R2 bucket binding. The Pages Function at functions/r2/[[path]].ts
+# reads from `env.BUCKET` to stream private R2 objects back to the
+# SPA at /r2/<key>. The bucket itself stays private (no public
+# access toggle) -- this Worker is the only reader.
+#
+# `jurisdiction` is INTENTIONALLY OMITTED. The bucket lives in the
+# default jurisdiction; setting jurisdiction = "default" is what
+# triggered the prior "invalid jurisdiction" deploy error.
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "opcrime-dashboard"
