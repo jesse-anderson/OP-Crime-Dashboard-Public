@@ -11,6 +11,12 @@
 
 compatibility_date = "2024-09-01"
 
+# Required for CF Pages to consider wrangler.toml valid. Path is
+# relative to this file. Since wrangler.toml ships into the deploy
+# root alongside index.html (publish step force-pushes staging/git
+# verbatim), the output dir IS the same dir as wrangler.toml.
+pages_build_output_dir = "."
+
 # R2 bucket binding. The Pages Function at functions/r2/[[path]].ts
 # reads from `env.BUCKET` to stream private R2 objects back to the
 # SPA at /r2/<key>. The bucket itself stays private (no public
